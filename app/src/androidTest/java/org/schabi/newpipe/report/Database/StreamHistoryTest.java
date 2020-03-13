@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 import org.schabi.newpipe.database.stream.StreamStatisticsEntry;
 import org.schabi.newpipe.extractor.stream.StreamInfo;
+import org.schabi.newpipe.extractor.stream.StreamInfoItem;
 import org.schabi.newpipe.extractor.stream.StreamType;
 import org.schabi.newpipe.player.BasePlayer;
 import org.schabi.newpipe.player.playqueue.PlayQueueItem;
@@ -45,30 +46,7 @@ public class StreamHistoryTest {
         long watchCount = 1234;
         StreamStatisticsEntry newStat = new StreamStatisticsEntry(uid,
                 serviceId, url, title, streamType, duration, uploader, thumbnailUrl, streamId, latestAccessDate, watchCount);
-
+        newStat.toStreamInfoItem();
+        newStat.getLocalItemType();
     }
-
-    /*
-    // this is for base handleIntent
-    @NotNull Context context;
-    @NotNull Intent intent;
-
-    @Test
-    public void handleIntentTest() {
-        BasePlayer something = new BasePlayer(context) {
-
-            @Nullable
-            @Override
-            public MediaSource sourceOf(PlayQueueItem item, StreamInfo info) {
-                return null;
-            }
-
-            @Override
-            public void onUpdateProgress(int currentProgress, int duration, int bufferPercent) {
-
-            }
-        };
-        something.handleIntent(intent);
-    }
-    */
 }

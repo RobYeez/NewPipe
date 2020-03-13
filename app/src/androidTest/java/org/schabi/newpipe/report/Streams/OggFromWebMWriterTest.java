@@ -1,22 +1,19 @@
-package org.schabi.newpipe.report;
+package org.schabi.newpipe.report.Streams;
 
-import org.jetbrains.annotations.NotNull;
+import androidx.annotation.NonNull;
+
 import org.junit.Test;
-import org.schabi.newpipe.streams.DataReader;
+import org.schabi.newpipe.streams.OggFromWebMWriter;
 import org.schabi.newpipe.streams.io.SharpStream;
+import static org.junit.Assert.assertFalse;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
-public class DataReadTest {
-
-
+public class OggFromWebMWriterTest {
     @Test
-    public void readByteTest() throws Exception {
-        @NotNull byte[] buffer = new byte[10];
-        SharpStream newSStream = new SharpStream() {
+    public void OggConstructor() throws IOException {
+        @NonNull
+        SharpStream source = new SharpStream() {
             @Override
             public int read() throws IOException {
                 return 0;
@@ -59,17 +56,17 @@ public class DataReadTest {
 
             @Override
             public boolean canRewind() {
-                return false;
+                return true;
             }
 
             @Override
             public boolean canRead() {
-                return false;
+                return true;
             }
 
             @Override
             public boolean canWrite() {
-                return false;
+                return true;
             }
 
             @Override
@@ -87,41 +84,31 @@ public class DataReadTest {
 
             }
         };
-        DataReader newDataRead = new DataReader(newSStream);
-        long result = newDataRead.position();
-        assertEquals(0, result);
-        long results= newDataRead.skipBytes(0); //cant test since sharpStream null
-        assertEquals(0, results);
-        long resultss = newDataRead.read(buffer, 15, 30);
-    }
-
-    @Test
-    public void parseTest() throws Exception{
-        @NotNull byte[] buffer = new byte[10];
-        SharpStream newSStream = new SharpStream() {
+        @NonNull
+        SharpStream output = new SharpStream() {
             @Override
             public int read() throws IOException {
-                return 0;
+                return 10;
             }
 
             @Override
             public int read(byte[] buffer) throws IOException {
-                return 0;
+                return 10;
             }
 
             @Override
             public int read(byte[] buffer, int offset, int count) throws IOException {
-                return 0;
+                return 10;
             }
 
             @Override
             public long skip(long amount) throws IOException {
-                return 0;
+                return 1;
             }
 
             @Override
             public long available() {
-                return 0;
+                return 10;
             }
 
             @Override
@@ -141,17 +128,17 @@ public class DataReadTest {
 
             @Override
             public boolean canRewind() {
-                return false;
+                return true;
             }
 
             @Override
             public boolean canRead() {
-                return false;
+                return true;
             }
 
             @Override
             public boolean canWrite() {
-                return false;
+                return true;
             }
 
             @Override
@@ -169,12 +156,9 @@ public class DataReadTest {
 
             }
         };
-        boolean falseSeek = newSStream.canSeek();
-        assertFalse(falseSeek);
-        boolean falseSetLength = newSStream.canSetLength();
-        assertFalse(falseSetLength);
-        newSStream.flush();
-        DataReader newDataRead = new DataReader(newSStream);
-        newDataRead.read();
+        OggFromWebMWriter newOgg = new OggFromWebMWriter(source, output);
+        assertFalse(newOgg.isDone());
+        assertFalse(newOgg.isParsed());
+        newOgg.close();
     }
 }
