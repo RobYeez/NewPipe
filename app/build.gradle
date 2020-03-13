@@ -2,6 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.android.application'
+apply plugin: 'pl.droidsonroids.pitest'
+
+//apply plugin: 'pl.droidsonroids.pitest'
+//apply plugin: 'info.solidsoft.pitest'
 //apply plugin: 'jacoco'
 
 android {
@@ -121,3 +126,18 @@ dependencies {
     implementation "io.noties.markwon:core:${markwonVersion}"
     implementation "io.noties.markwon:linkify:${markwonVersion}"
 }
+//
+pitest {
+    targetClasses = ['org.schabi.newpipe.*']  //by default "${project.group}.*"
+    pitestVersion = '1.4.1' //not needed when a default PIT version should be used
+    threads = 4
+    outputFormats = ['XML', 'HTML']
+    timestampedReports = false
+}
+//pitest {
+//    targetClasses = ['org.schabi.newpipe.*']  /* specify target classes to be mutated */
+//    //excludedClasses = ['*Factory'] /* Exclude Dagger generated classes */
+//    //pitestVersion = "1.1.0"
+//    threads = 4 /* specify number of threads */
+//    outputFormats = ['XML', 'HTML'] /* specify output format */
+//}
