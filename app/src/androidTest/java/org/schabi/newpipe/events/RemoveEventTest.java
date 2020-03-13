@@ -1,4 +1,4 @@
-package events;
+package org.schabi.newpipe.events;
 
 import org.junit.Test;
 import org.schabi.newpipe.player.playqueue.events.RemoveEvent;
